@@ -1,0 +1,13 @@
+[
+    {
+        "username": "admin",
+        "password": "$2y$10$\/6GvDYCLLPeVDmVayPO8EOWsZh86nVoPJrxZTeKqbYVfOsZHUTImO",
+        "role": "admin"
+    },
+    {
+        "username": "an",
+        "email": "an@gmail.com",
+        "password": "$2y$10$3yTwA9a\/CGuK8U6TRsXblerKWV3zgRoDTuVHohQWwZwOAY1\/R9O7i",
+        "role": "user"
+    }
+]

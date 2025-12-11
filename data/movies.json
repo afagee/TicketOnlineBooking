@@ -1,0 +1,302 @@
+[
+    {
+        "id": "mv-1",
+        "title": "Dune: Part Two",
+        "duration": 166,
+        "price": 120000,
+        "poster": "https://image.tmdb.org/t/p/w500/8bcoRX3hQRHufLPSDREdvr3YMXx.jpg",
+        "description": "Paul Atreides tiếp tục hành trình cùng người Fremen và đối đầu Nhà Harkonnen.",
+        "genres": ["Sci-Fi", "Adventure"],
+        "cast": ["Timothée Chalamet", "Zendaya", "Rebecca Ferguson", "Josh Brolin"],
+        "showtimes": [
+            {"id": "mv-1-1", "time": "2025-12-10 18:00"},
+            {"id": "mv-1-2", "time": "2025-12-10 21:30"},
+            {"id": "mv-1-3", "time": "2025-12-11 20:00"}
+        ]
+    },
+    {
+        "id": "mv-2",
+        "title": "Oppenheimer",
+        "duration": 180,
+        "price": 115000,
+        "poster": "https://image.tmdb.org/t/p/w500/8Gxv8gSFCU0XGDykEGv7zR1n2zB.jpg",
+        "description": "Câu chuyện về cha đẻ bom nguyên tử J. Robert Oppenheimer.",
+        "genres": ["Drama", "History"],
+        "cast": ["Cillian Murphy", "Emily Blunt", "Matt Damon", "Robert Downey Jr."],
+        "showtimes": [
+            {"id": "mv-2-1", "time": "2025-12-10 17:15"},
+            {"id": "mv-2-2", "time": "2025-12-10 21:00"},
+            {"id": "mv-2-3", "time": "2025-12-11 20:20"}
+        ]
+    },
+    {
+        "id": "mv-3",
+        "title": "Barbie",
+        "duration": 114,
+        "price": 95000,
+        "poster": "https://image.tmdb.org/t/p/w500/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg",
+        "description": "Barbie và Ken bước ra thế giới thực và tìm kiếm ý nghĩa tồn tại.",
+        "genres": ["Comedy", "Fantasy"],
+        "cast": ["Margot Robbie", "Ryan Gosling", "America Ferrera", "Simu Liu"],
+        "showtimes": [
+            {"id": "mv-3-1", "time": "2025-12-11 16:30"},
+            {"id": "mv-3-2", "time": "2025-12-11 19:00"},
+            {"id": "mv-3-3", "time": "2025-12-12 18:45"}
+        ]
+    },
+    {
+        "id": "mv-4",
+        "title": "Avatar: The Way of Water",
+        "duration": 192,
+        "price": 125000,
+        "poster": "https://image.tmdb.org/t/p/w500/t6HIqrRAclMCA60NsSmeqe9RmNV.jpg",
+        "description": "Gia đình Jake Sully bảo vệ Pandora trước mối đe dọa mới từ loài người.",
+        "genres": ["Sci-Fi", "Adventure"],
+        "cast": ["Sam Worthington", "Zoe Saldana", "Sigourney Weaver", "Stephen Lang"],
+        "showtimes": [
+            {"id": "mv-4-1", "time": "2025-12-10 15:40"},
+            {"id": "mv-4-2", "time": "2025-12-10 20:10"},
+            {"id": "mv-4-3", "time": "2025-12-11 19:30"}
+        ]
+    },
+    {
+        "id": "mv-5",
+        "title": "Top Gun: Maverick",
+        "duration": 131,
+        "price": 100000,
+        "poster": "https://image.tmdb.org/t/p/w500/62HCnUTziyWcpDaBO2i1DX17ljH.jpg",
+        "description": "Phi công huyền thoại Maverick đào tạo đội phi công trẻ cho nhiệm vụ bất khả thi.",
+        "genres": ["Action", "Drama"],
+        "cast": ["Tom Cruise", "Miles Teller", "Jennifer Connelly", "Jon Hamm"],
+        "showtimes": [
+            {"id": "mv-5-1", "time": "2025-12-10 18:20"},
+            {"id": "mv-5-2", "time": "2025-12-10 21:10"},
+            {"id": "mv-5-3", "time": "2025-12-11 20:00"}
+        ]
+    },
+    {
+        "id": "mv-6",
+        "title": "Spider-Man: Across the Spider-Verse",
+        "duration": 140,
+        "price": 98000,
+        "poster": "https://image.tmdb.org/t/p/w500/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg",
+        "description": "Miles Morales du hành đa vũ trụ, gặp gỡ nhiều Spider-People và đối đầu Spot.",
+        "genres": ["Animation", "Action"],
+        "cast": ["Shameik Moore", "Hailee Steinfeld", "Oscar Isaac", "Jake Johnson"],
+        "showtimes": [
+            {"id": "mv-6-1", "time": "2025-12-11 17:00"},
+            {"id": "mv-6-2", "time": "2025-12-11 19:50"},
+            {"id": "mv-6-3", "time": "2025-12-12 18:30"}
+        ]
+    },
+    {
+        "id": "mv-7",
+        "title": "Inside Out 2",
+        "duration": 110,
+        "price": 90000,
+        "poster": "https://image.tmdb.org/t/p/w500/ztkUQFLlC19CCMYHW9o1zWhJRNq.jpg",
+        "description": "Riley bước vào tuổi teen với cảm xúc mới như Lo Âu, Ghen Tị, Xấu Hổ.",
+        "genres": ["Animation", "Family"],
+        "cast": ["Amy Poehler", "Maya Hawke", "Phyllis Smith", "Lewis Black"],
+        "showtimes": [
+            {"id": "mv-7-1", "time": "2025-12-10 16:45"},
+            {"id": "mv-7-2", "time": "2025-12-10 19:20"},
+            {"id": "mv-7-3", "time": "2025-12-11 17:10"}
+        ]
+    },
+    {
+        "id": "mv-8",
+        "title": "Deadpool & Wolverine",
+        "duration": 128,
+        "price": 105000,
+        "poster": "https://image.tmdb.org/t/p/w500/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg",
+        "description": "Deadpool cùng Wolverine phá vỡ đa vũ trụ để cứu thế giới MCU.",
+        "genres": ["Action", "Comedy"],
+        "cast": ["Ryan Reynolds", "Hugh Jackman", "Emma Corrin", "Morena Baccarin"],
+        "showtimes": [
+            {"id": "mv-8-1", "time": "2025-12-10 20:40"},
+            {"id": "mv-8-2", "time": "2025-12-11 19:15"},
+            {"id": "mv-8-3", "time": "2025-12-12 21:30"}
+        ]
+    },
+    {
+        "id": "mv-9",
+        "title": "Wonka",
+        "duration": 116,
+        "price": 92000,
+        "poster": "https://image.tmdb.org/t/p/w500/qhb1qOilapbapxWQn9jtRCMwXJF.jpg",
+        "description": "Câu chuyện thời trẻ của Willy Wonka trước khi mở xưởng socola huyền thoại.",
+        "genres": ["Family", "Fantasy"],
+        "cast": ["Timothée Chalamet", "Calah Lane", "Keegan-Michael Key", "Olivia Colman"],
+        "showtimes": [
+            {"id": "mv-9-1", "time": "2025-12-11 16:20"},
+            {"id": "mv-9-2", "time": "2025-12-11 18:50"},
+            {"id": "mv-9-3", "time": "2025-12-12 17:30"}
+        ]
+    },
+    {
+        "id": "mv-10",
+        "title": "The Batman",
+        "duration": 175,
+        "price": 110000,
+        "poster": "https://image.tmdb.org/t/p/w500/74xTEgt7R36Fpooo50r9T25onhq.jpg",
+        "description": "Bruce Wayne năm thứ hai làm Batman điều tra kẻ sát nhân Riddler.",
+        "genres": ["Action", "Thriller"],
+        "cast": ["Robert Pattinson", "Zoë Kravitz", "Paul Dano", "Jeffrey Wright"],
+        "showtimes": [
+            {"id": "mv-10-1", "time": "2025-12-10 18:10"},
+            {"id": "mv-10-2", "time": "2025-12-10 21:40"},
+            {"id": "mv-10-3", "time": "2025-12-11 20:10"}
+        ]
+    },
+    {
+        "id": "mv-11",
+        "title": "The Marvels",
+        "duration": 105,
+        "price": 89000,
+        "poster": "https://image.tmdb.org/t/p/w500/9GBhzXMFjgcZ3FdR9w3bUMMTps5.jpg",
+        "description": "Captain Marvel, Ms. Marvel và Monica Rambeau buộc phải hoán đổi vị trí qua mỗi lần dùng sức mạnh.",
+        "genres": ["Action", "Superhero"],
+        "cast": ["Brie Larson", "Iman Vellani", "Teyonah Parris", "Samuel L. Jackson"],
+        "showtimes": [
+            {"id": "mv-11-1", "time": "2025-12-10 17:00"},
+            {"id": "mv-11-2", "time": "2025-12-11 19:00"},
+            {"id": "mv-11-3", "time": "2025-12-12 18:40"}
+        ]
+    },
+    {
+        "id": "mv-12",
+        "title": "Mission: Impossible – Dead Reckoning",
+        "duration": 156,
+        "price": 108000,
+        "poster": "https://image.tmdb.org/t/p/w500/NNxYkU70HPurnNCSiCjYAmacwm.jpg",
+        "description": "Ethan Hunt truy tìm trí tuệ nhân tạo phản nghịch đe dọa thế giới.",
+        "genres": ["Action", "Thriller"],
+        "cast": ["Tom Cruise", "Hayley Atwell", "Ving Rhames", "Simon Pegg"],
+        "showtimes": [
+            {"id": "mv-12-1", "time": "2025-12-10 19:00"},
+            {"id": "mv-12-2", "time": "2025-12-11 21:20"},
+            {"id": "mv-12-3", "time": "2025-12-12 20:30"}
+        ]
+    },
+    {
+        "id": "mv-13",
+        "title": "John Wick: Chapter 4",
+        "duration": 169,
+        "price": 102000,
+        "poster": "https://image.tmdb.org/t/p/w500/vZloFAK7NmvMGKE7VkF5UHaz0I.jpg",
+        "description": "John Wick đối đầu High Table trên hành trình giành tự do.",
+        "genres": ["Action", "Crime"],
+        "cast": ["Keanu Reeves", "Donnie Yen", "Bill Skarsgård", "Laurence Fishburne"],
+        "showtimes": [
+            {"id": "mv-13-1", "time": "2025-12-10 22:00"},
+            {"id": "mv-13-2", "time": "2025-12-11 21:15"},
+            {"id": "mv-13-3", "time": "2025-12-12 23:00"}
+        ]
+    },
+    {
+        "id": "mv-14",
+        "title": "Guardians of the Galaxy Vol. 3",
+        "duration": 150,
+        "price": 96000,
+        "poster": "https://image.tmdb.org/t/p/w500/r2J02Z2OpNTctfOSN1Ydgii51I3.jpg",
+        "description": "Đội Vệ Binh giải cứu Rocket và đối đầu High Evolutionary.",
+        "genres": ["Action", "Comedy"],
+        "cast": ["Chris Pratt", "Zoe Saldana", "Dave Bautista", "Bradley Cooper"],
+        "showtimes": [
+            {"id": "mv-14-1", "time": "2025-12-11 18:00"},
+            {"id": "mv-14-2", "time": "2025-12-11 20:40"},
+            {"id": "mv-14-3", "time": "2025-12-12 19:30"}
+        ]
+    },
+    {
+        "id": "mv-15",
+        "title": "Everything Everywhere All at Once",
+        "duration": 139,
+        "price": 88000,
+        "poster": "https://image.tmdb.org/t/p/w500/w3LxiVYdWWRvEVdn5RYq6jIqkb1.jpg",
+        "description": "Evelyn Wang xuyên đa vũ trụ để cứu gia đình và chính mình.",
+        "genres": ["Comedy", "Sci-Fi"],
+        "cast": ["Michelle Yeoh", "Ke Huy Quan", "Stephanie Hsu", "Jamie Lee Curtis"],
+        "showtimes": [
+            {"id": "mv-15-1", "time": "2025-12-10 16:50"},
+            {"id": "mv-15-2", "time": "2025-12-11 19:30"},
+            {"id": "mv-15-3", "time": "2025-12-12 21:00"}
+        ]
+    },
+    {
+        "id": "mv-16",
+        "title": "The Hunger Games: The Ballad of Songbirds & Snakes",
+        "duration": 157,
+        "price": 94000,
+        "poster": "https://image.tmdb.org/t/p/w500/2p2fcg94YpVRB8BdDFj5dNx0u9T.jpg",
+        "description": "Coriglanus Snow trẻ tuổi trải qua kỳ đấu trường sinh tử đầu tiên.",
+        "genres": ["Action", "Drama"],
+        "cast": ["Tom Blyth", "Rachel Zegler", "Peter Dinklage", "Viola Davis"],
+        "showtimes": [
+            {"id": "mv-16-1", "time": "2025-12-10 17:40"},
+            {"id": "mv-16-2", "time": "2025-12-11 20:10"},
+            {"id": "mv-16-3", "time": "2025-12-12 19:20"}
+        ]
+    },
+    {
+        "id": "mv-17",
+        "title": "Napoleon",
+        "duration": 158,
+        "price": 97000,
+        "poster": "https://image.tmdb.org/t/p/w500/iqqMJwvPlovftBfdHVrpP2zmPYy.jpg",
+        "description": "Bi sử thi về Napoleon Bonaparte và mối tình với Josephine.",
+        "genres": ["History", "War"],
+        "cast": ["Joaquin Phoenix", "Vanessa Kirby", "Tahar Rahim", "Ben Miles"],
+        "showtimes": [
+            {"id": "mv-17-1", "time": "2025-12-11 17:30"},
+            {"id": "mv-17-2", "time": "2025-12-11 20:30"},
+            {"id": "mv-17-3", "time": "2025-12-12 19:45"}
+        ]
+    },
+    {
+        "id": "mv-18",
+        "title": "Killers of the Flower Moon",
+        "duration": 206,
+        "price": 115000,
+        "poster": "https://image.tmdb.org/t/p/w500/dB6Krk806zeqd0YNp2ngQ9zXteH.jpg",
+        "description": "Tội ác nhắm vào người Osage và cuộc điều tra của FBI thời kỳ đầu.",
+        "genres": ["Crime", "Drama"],
+        "cast": ["Leonardo DiCaprio", "Lily Gladstone", "Robert De Niro", "Jesse Plemons"],
+        "showtimes": [
+            {"id": "mv-18-1", "time": "2025-12-10 18:10"},
+            {"id": "mv-18-2", "time": "2025-12-10 21:50"},
+            {"id": "mv-18-3", "time": "2025-12-11 20:00"}
+        ]
+    },
+    {
+        "id": "mv-19",
+        "title": "The Creator",
+        "duration": 133,
+        "price": 93000,
+        "poster": "https://image.tmdb.org/t/p/w500/vBZ0qvaRxqEhZwl6LWmruJqWE8Z.jpg",
+        "description": "Chiến tranh người – AI khi một vũ khí bí ẩn có thể chấm dứt xung đột.",
+        "genres": ["Sci-Fi", "Action"],
+        "cast": ["John David Washington", "Madeleine Yuna Voyles", "Gemma Chan", "Ken Watanabe"],
+        "showtimes": [
+            {"id": "mv-19-1", "time": "2025-12-11 18:50"},
+            {"id": "mv-19-2", "time": "2025-12-11 21:20"},
+            {"id": "mv-19-3", "time": "2025-12-12 19:10"}
+        ]
+    },
+    {
+        "id": "mv-20",
+        "title": "A Haunting in Venice",
+        "duration": 103,
+        "price": 82000,
+        "poster": "https://image.tmdb.org/t/p/w500/AiH9XnU9Zz2gQXKXqmQJx0QYV92.jpg",
+        "description": "Thám tử Poirot phá án trong buổi gọi hồn bí ẩn tại Venice.",
+        "genres": ["Mystery", "Thriller"],
+        "cast": ["Kenneth Branagh", "Michelle Yeoh", "Jamie Dornan", "Tina Fey"],
+        "showtimes": [
+            {"id": "mv-20-1", "time": "2025-12-10 16:30"},
+            {"id": "mv-20-2", "time": "2025-12-11 19:00"},
+            {"id": "mv-20-3", "time": "2025-12-12 21:10"}
+        ]
+    }
+]
