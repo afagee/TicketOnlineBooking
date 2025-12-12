@@ -9,5 +9,11 @@
         "email": "an@gmail.com",
         "password": "$2y$10$3yTwA9a\/CGuK8U6TRsXblerKWV3zgRoDTuVHohQWwZwOAY1\/R9O7i",
         "role": "user"
+    },
+    {
+        "username": "piag13",
+        "email": "troctri2601@gmail.com",
+        "password": "$2y$12$xNaPsmwNsFrBxNx9YlETpOcPd8OTvSGG88oDcfwIFoM6WbbgwzESK",
+        "role": "user"
     }
 ]
