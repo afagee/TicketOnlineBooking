@@ -53,18 +53,18 @@ function renderMovies(movies) {
   });
 }
 
-fetchJSON("/api/movies.php").then(renderMovies).catch(console.error);
+fetchJSON("/api/index.php?route=movies").then(renderMovies).catch(console.error);
 
 // Auth + bookings
 async function loadUserAndBookings() {
   try {
-    const auth = await fetchJSON("/api/auth_me.php");
+    const auth = await fetchJSON("/api/index.php?route=auth/me");
     const user = auth.user;
     if (user) {
       if (userInfoEl) userInfoEl.innerHTML = `<span class="badge">👤 ${user.username}</span>`;
       if (loginLink) loginLink.classList.add("hidden");
       if (logoutLink) logoutLink.classList.remove("hidden");
-      const bookings = await fetchJSON("/api/my_bookings.php");
+      const bookings = await fetchJSON("/api/index.php?route=my-bookings");
       renderBookings(bookings);
     } else {
       if (userInfoEl) userInfoEl.textContent = "Khách";
@@ -108,12 +108,12 @@ function renderBookings(data) {
       if (!showId || !seats.length) return;
       if (!confirm(`Hủy vé suất ${showId} cho ghế: ${seats.join(", ")}?`)) return;
       try {
-        const res = await fetchJSON("/api/my_cancel_booking.php", {
+        const res = await fetchJSON("/api/index.php?route=my-bookings/cancel", {
           method: "POST",
           body: JSON.stringify({ showId, seats }),
         });
         alert(res.message || "Đã hủy");
-        const bookings = await fetchJSON("/api/my_bookings.php");
+        const bookings = await fetchJSON("/api/index.php?route=my-bookings");
         renderBookings(bookings);
       } catch (err) {
         alert(err.message);

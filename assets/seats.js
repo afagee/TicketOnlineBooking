@@ -53,7 +53,7 @@ function renderSeats() {
 async function loadSeats() {
   if (!selectedShow) return;
   try {
-    const data = await fetchJSON(`/api/seat_map.php?showId=${selectedShow.show}`);
+    const data = await fetchJSON(`/api/index.php?route=seat-map&showId=${selectedShow.show}`);
     seatState = data.seats;
     statusEl.textContent = data.message || "";
     renderSeats();
@@ -75,7 +75,7 @@ async function toggleSeat(code) {
   }
   try {
     const payload = { showId: selectedShow.show, seats: nextSeats };
-    const result = await fetchJSON("/api/hold_seats.php", {
+    const result = await fetchJSON("/api/index.php?route=hold", {
       method: "POST",
       body: JSON.stringify(payload),
     });
@@ -89,7 +89,7 @@ async function toggleSeat(code) {
 async function confirmBooking() {
   if (!selectedShow) return;
   try {
-    const res = await fetchJSON("/api/confirm_booking.php", {
+    const res = await fetchJSON("/api/index.php?route=booking/confirm", {
       method: "POST",
       body: JSON.stringify({ showId: selectedShow.show }),
     });
@@ -104,7 +104,7 @@ async function confirmBooking() {
 async function releaseHold() {
   if (!selectedShow) return;
   try {
-    const res = await fetchJSON("/api/release_hold.php", {
+    const res = await fetchJSON("/api/index.php?route=hold/release", {
       method: "POST",
       body: JSON.stringify({ showId: selectedShow.show }),
     });
@@ -137,7 +137,7 @@ const showId = window.__SHOW_ID__;
 if (!showId) {
   statusEl.textContent = "Thiếu mã suất chiếu.";
 } else {
-  Promise.all([fetchJSON("/api/auth_me.php"), fetchJSON("/api/movies.php")])
+  Promise.all([fetchJSON("/api/index.php?route=auth/me"), fetchJSON("/api/index.php?route=movies")])
     .then(([auth, movies]) => {
       me = auth.user;
       if (!me) {

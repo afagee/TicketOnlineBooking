@@ -6,6 +6,7 @@ const titleInput = document.getElementById("title");
 const durationInput = document.getElementById("duration");
 const priceInput = document.getElementById("price");
 const posterInput = document.getElementById("poster");
+const trailerInput = document.getElementById("trailer");
 const descInput = document.getElementById("description");
 const showDateInput = document.getElementById("show-date");
 const showTimeInput = document.getElementById("show-time");
@@ -70,12 +71,12 @@ function renderMovies(movies) {
 }
 
 async function loadMovies() {
-  const data = await fetchJSON("/api/movies.php");
+  const data = await fetchJSON("/api/index.php?route=movies");
   renderMovies(data);
 }
 
 function loadToForm(id) {
-  fetchJSON("/api/movies.php").then((movies) => {
+  fetchJSON("/api/index.php?route=movies").then((movies) => {
     const movie = movies.find((m) => m.id === id);
     if (!movie) return;
     idInput.value = movie.id;
@@ -83,6 +84,7 @@ function loadToForm(id) {
     durationInput.value = movie.duration;
     priceInput.value = movie.price || 0;
     posterInput.value = movie.poster;
+    trailerInput.value = movie.trailer || "";
     descInput.value = movie.description;
     showtimeList = movie.showtimes.map((s) => s.time);
     renderShowtimeList();
@@ -91,7 +93,7 @@ function loadToForm(id) {
 
 async function deleteMovie(id) {
   if (!confirm("Xóa phim này?")) return;
-  await fetchJSON("/api/admin_delete_movie.php", {
+  await fetchJSON("/api/index.php?route=admin/movie/delete", {
     method: "POST",
     body: JSON.stringify({ id }),
   });
@@ -105,16 +107,18 @@ form.addEventListener("submit", async (e) => {
     title: titleInput.value,
     duration: Number(durationInput.value),
     poster: posterInput.value,
+    trailer: trailerInput.value,
     price: Number(priceInput.value),
     description: descInput.value,
     showtimes: showtimeList,
   };
-  await fetchJSON("/api/admin_save_movie.php", {
+  await fetchJSON("/api/index.php?route=admin/movie/save", {
     method: "POST",
     body: JSON.stringify(payload),
   });
   form.reset();
   idInput.value = "";
+  trailerInput.value = "";
   showtimeList = [];
   renderShowtimeList();
   await loadMovies();
@@ -131,7 +135,7 @@ if (resetDataBtn) {
   resetDataBtn.addEventListener("click", async () => {
     if (!confirm("Xác nhận xóa toàn bộ ghế đã đặt và giữ chỗ?")) return;
     try {
-      const res = await fetchJSON("/api/admin_reset_data.php", { method: "POST" });
+      const res = await fetchJSON("/api/index.php?route=admin/reset", { method: "POST" });
       alert(res.message || "Đã reset");
     } catch (err) {
       alert(err.message);
