@@ -32,7 +32,7 @@ async function fetchJSON(url, options = {}) {
 loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   try {
-    const data = await fetchJSON("/api/auth_login.php", {
+    const data = await fetchJSON("/api/index.php?route=auth/login", {
       method: "POST",
       body: JSON.stringify({
         username: document.getElementById("login-username").value,
@@ -49,7 +49,7 @@ loginForm.addEventListener("submit", async (e) => {
 registerForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   try {
-    const data = await fetchJSON("/api/auth_register.php", {
+    const data = await fetchJSON("/api/index.php?route=auth/register", {
       method: "POST",
       body: JSON.stringify({
         username: document.getElementById("register-username").value,

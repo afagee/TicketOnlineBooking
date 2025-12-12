@@ -1,8 +1,7 @@
 <?php
 require_once __DIR__ . '/api/util.php';
 
-session_unset();
-session_destroy();
+auth_api()->logout();
 
 header('Location: /index.php');
 exit;

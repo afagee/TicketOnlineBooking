@@ -28,6 +28,8 @@ function renderMovie(movie) {
     return;
   }
 
+  const trailerEmbed = toEmbedUrl(movie.trailer);
+
   const grouped = {};
   movie.showtimes.forEach((s) => {
     const parts = (s.time || "").split(" ");
@@ -47,13 +49,24 @@ function renderMovie(movie) {
              onerror="fallbackPoster(this)">
       </div>
       <div class="movie-detail__info">
+      ${
+        trailerEmbed
+          ? `<div class="divider"></div>
+             <p class="eyebrow">Trailer</p>
+             <div class="trailer-embed">
+               <iframe src="${trailerEmbed}" title="Trailer ${movie.title}" frameborder="0"
+                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                 allowfullscreen></iframe>
+             </div>`
+          : ""
+      }
+      <h2>${movie.title}</h2>
         <div class="chip-row">
           <div class="chip">⏱ ${movie.duration} phút</div>
           <div class="chip">💸 ${Number(movie.price || 0).toLocaleString("vi-VN")} đ</div>
           <div class="chip">🎬 ${Array.isArray(movie.genres) ? movie.genres.join(" · ") : ""}</div>
         </div>
-        <h2>${movie.title}</h2>
-        <p><strong>Tóm tắt:</strong> ${movie.description}</p>
+        <p><strong>Giới thiệu:</strong> ${movie.description}</p>
         <p class="muted"><strong>Diễn viên:</strong> ${Array.isArray(movie.cast) ? movie.cast.join(", ") : ""}</p>
         <div class="divider"></div>
         <p class="eyebrow">Chọn ngày chiếu</p>
@@ -97,7 +110,22 @@ function renderMovie(movie) {
   renderTimes(selectedDate);
 }
 
-fetchJSON("/api/movies.php")
+function toEmbedUrl(url) {
+  if (!url) return "";
+  try {
+    const u = new URL(url);
+    if (u.hostname.includes("youtu")) {
+      // watch?v=ID or youtu.be/ID
+      const id = u.searchParams.get("v") || u.pathname.split("/").filter(Boolean).pop();
+      return id ? `https://www.youtube.com/embed/${id}` : "";
+    }
+    return url;
+  } catch {
+    return "";
+  }
+}
+
+fetchJSON("/api/index.php?route=movies")
   .then((movies) => {
     const movie = movies.find((m) => m.id === movieId);
     renderMovie(movie);

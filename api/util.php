@@ -1,65 +1,157 @@
 <?php
-session_start();
+declare(strict_types=1);
 
-const MOVIES_FILE = __DIR__ . '/../data/movies.json';
-const BOOKINGS_FILE = __DIR__ . '/../data/bookings.json';
-const HOLDS_FILE = __DIR__ . '/../data/seat_holds.json';
-const USERS_FILE = __DIR__ . '/../data/users.json';
-const HOLD_TTL_SECONDS = 300; // 5 minutes
-const DEFAULT_ADMIN = ['username' => 'admin', 'password' => 'admin', 'role' => 'admin'];
+require_once __DIR__ . '/../app/bootstrap.php';
 
+use App\Core\JsonStore;
+use App\Models\BookingModel;
+use App\Models\MovieModel;
+use App\Models\SeatHoldModel;
+use App\Models\UserModel;
+use App\Services\AuthService;
+use App\Services\BookingService;
+use App\Controllers\Api\AuthApiController;
+use App\Controllers\Api\MoviesApiController;
+use App\Controllers\Api\BookingApiController;
+use App\Controllers\Api\AdminApiController;
+
+// Shared singletons for APIs
+static $store;
+static $movieModel;
+static $bookingModel;
+static $holdModel;
+static $userModel;
+static $authService;
+static $bookingService;
+static $authApi;
+static $moviesApi;
+static $bookingApi;
+static $adminApi;
+
+const MOVIES_FILE = DATA_PATH . '/movies.json';
+const BOOKINGS_FILE = DATA_PATH . '/bookings.json';
+const HOLDS_FILE = DATA_PATH . '/seat_holds.json';
+const USERS_FILE = DATA_PATH . '/users.json';
+const HOLD_TTL_SECONDS = BookingService::HOLD_TTL_SECONDS;
+
+function store(): JsonStore
+{
+    global $store;
+    if (!$store) {
+        $store = new JsonStore(DATA_PATH);
+    }
+    return $store;
+}
+
+function movie_model(): MovieModel
+{
+    global $movieModel;
+    if (!$movieModel) {
+        $movieModel = new MovieModel(store(), MOVIES_FILE);
+    }
+    return $movieModel;
+}
+
+function booking_model(): BookingModel
+{
+    global $bookingModel;
+    if (!$bookingModel) {
+        $bookingModel = new BookingModel(store(), BOOKINGS_FILE);
+    }
+    return $bookingModel;
+}
+
+function hold_model(): SeatHoldModel
+{
+    global $holdModel;
+    if (!$holdModel) {
+        $holdModel = new SeatHoldModel(store(), HOLDS_FILE);
+    }
+    return $holdModel;
+}
+
+function user_model(): UserModel
+{
+    global $userModel;
+    if (!$userModel) {
+        $userModel = new UserModel(store(), USERS_FILE);
+    }
+    return $userModel;
+}
+
+function auth_service(): AuthService
+{
+    global $authService;
+    if (!$authService) {
+        $authService = new AuthService(user_model());
+    }
+    return $authService;
+}
+
+function booking_service(): BookingService
+{
+    global $bookingService;
+    if (!$bookingService) {
+        $bookingService = new BookingService(movie_model(), hold_model(), booking_model(), auth_service());
+    }
+    return $bookingService;
+}
+
+function auth_api(): AuthApiController
+{
+    global $authApi;
+    if (!$authApi) {
+        $authApi = new AuthApiController(auth_service());
+    }
+    return $authApi;
+}
+
+function movies_api(): MoviesApiController
+{
+    global $moviesApi;
+    if (!$moviesApi) {
+        $moviesApi = new MoviesApiController(movie_model());
+    }
+    return $moviesApi;
+}
+
+function booking_api(): BookingApiController
+{
+    global $bookingApi;
+    if (!$bookingApi) {
+        $bookingApi = new BookingApiController(booking_service());
+    }
+    return $bookingApi;
+}
+
+function admin_api(): AdminApiController
+{
+    global $adminApi;
+    if (!$adminApi) {
+        $adminApi = new AdminApiController(booking_service());
+    }
+    return $adminApi;
+}
+
+// Backwards-compatible helpers
 function read_json(string $file, $default = [])
 {
-    if (!file_exists($file)) {
-        return $default;
-    }
-    $content = file_get_contents($file);
-    if ($content === false || $content === '') {
-        return $default;
-    }
-    $data = json_decode($content, true);
-    return $data ?? $default;
+    return store()->read($file, $default);
 }
 
 function write_json(string $file, $data): bool
 {
-    $json = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-    $fp = fopen($file, 'c+');
-    if (!$fp) {
-        return false;
-    }
-    // Lock to avoid race conditions
-    if (!flock($fp, LOCK_EX)) {
-        fclose($fp);
-        return false;
-    }
-    ftruncate($fp, 0);
-    rewind($fp);
-    $result = fwrite($fp, $json) !== false;
-    fflush($fp);
-    flock($fp, LOCK_UN);
-    fclose($fp);
-    return $result;
+    return store()->write($file, $data);
 }
 
 function seat_template(): array
 {
-    $rows = ['A', 'B', 'C', 'D', 'E', 'F'];
-    $cols = range(1, 10);
-    $seats = [];
-    foreach ($rows as $row) {
-        foreach ($cols as $col) {
-            $seats[] = $row . $col;
-        }
-    }
-    return $seats;
+    return booking_service()->seatTemplate();
 }
 
 function cleanup_expired_holds(array $holds, int $now): array
 {
-    return array_values(array_filter($holds, function ($hold) use ($now) {
-        return isset($hold['expiresAt']) && $hold['expiresAt'] > $now;
-    }));
+    return booking_service()->cleanupExpiredHolds($holds, $now);
 }
 
 function current_session_id(): string
@@ -67,53 +159,18 @@ function current_session_id(): string
     return session_id();
 }
 
-function load_users(): array
-{
-    $users = read_json(USERS_FILE, []);
-    $hasAdmin = false;
-    foreach ($users as $u) {
-        if (($u['username'] ?? '') === DEFAULT_ADMIN['username']) {
-            $hasAdmin = true;
-            break;
-        }
-    }
-    if (!$hasAdmin) {
-        $users[] = [
-            'username' => DEFAULT_ADMIN['username'],
-            'password' => password_hash(DEFAULT_ADMIN['password'], PASSWORD_DEFAULT),
-            'role' => 'admin',
-        ];
-        write_json(USERS_FILE, $users);
-    }
-    return $users;
-}
-
-function save_users(array $users): void
-{
-    write_json(USERS_FILE, $users);
-}
-
 function current_user(): ?array
 {
-    return $_SESSION['user'] ?? null;
+    return auth_service()->currentUser();
 }
 
 function require_login(): void
 {
-    if (!current_user()) {
-        http_response_code(401);
-        echo json_encode(['message' => 'Cần đăng nhập']);
-        exit;
-    }
+    auth_service()->requireLoginJson();
 }
 
 function require_admin(): void
 {
-    $user = current_user();
-    if (!$user || ($user['role'] ?? '') !== 'admin') {
-        http_response_code(403);
-        echo json_encode(['message' => 'Chỉ admin được phép thao tác']);
-        exit;
-    }
+    auth_service()->requireAdminJson();
 }
 
