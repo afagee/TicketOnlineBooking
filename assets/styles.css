@@ -72,6 +72,37 @@ p { color: var(--muted); line-height: 1.5; }
   gap: 18px;
 }
 
+.featured-movies {
+  margin: 26px 0;
+}
+.featured-movies .swiper-container {
+  width: 100%;
+  padding: 12px 6px 28px;
+}
+.featured-movies .swiper-slide {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 120ms ease, border-color 120ms ease;
+}
+.featured-movies .swiper-slide:hover {
+  transform: translateY(0px);
+  border-color: rgba(192,132,252,0.35);
+}
+.featured-movies .swiper-slide img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  display: block;
+}
+.featured-movies .swiper-slide h3 {
+  margin: 10px;
+  font-size: 15px;
+}
+
 .card {
   background: var(--card);
   border-radius: var(--radius);
