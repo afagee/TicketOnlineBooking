@@ -1,1 +1,15 @@
-[]
+[
+    {
+        "showId": "mv-3-1",
+        "seats": [
+            "B4",
+            "B5"
+        ],
+        "session": "3131886c58be4d5d3c9891e956ad602f",
+        "bookedAt": "2025-12-11T15:47:48+00:00",
+        "pricePerSeat": 95000,
+        "totalPrice": 190000,
+        "paid": true,
+        "user": "piag13"
+    }
+]
