@@ -1,9 +1,22 @@
 const moviesEl = document.getElementById("movies");
+const featuredWrapper = document.querySelector(".swiper-container.phim-hot .swiper-wrapper");
+let featuredSwiper = null;
 const userInfoEl = document.getElementById("user-info");
 const loginLink = document.getElementById("login-link");
 const logoutLink = document.getElementById("logout-link");
 const bookingsSection = document.getElementById("bookings-section");
 const bookingsList = document.getElementById("bookings-list");
+
+// Danh sách phim nổi bật theo thứ tự mong muốn
+const FEATURED_IDS = [
+  "mv-1",  // Dune: Part Two
+  "mv-2",  // Interstellar
+  "mv-6",  // Spider-Man: Across the Spider-Verse
+  "mv-11", // The Marvels
+  "mv-13", // John Wick: Chapter 4
+  "mv-17", // The Dark Knight
+  "mv-4",  // Avatar: The Way of Water
+];
 
 function fallbackPoster(img) {
   const list = (img.dataset.fallbacks || "").split("|").filter(Boolean);
@@ -27,7 +40,16 @@ async function fetchJSON(url, options = {}) {
 }
 
 function renderMovies(movies) {
-  moviesEl.innerHTML = movies
+  // Sắp xếp để phim nổi bật lên đầu danh sách lưới
+  const order = new Map(FEATURED_IDS.map((id, idx) => [id, idx]));
+  const sorted = [...movies].sort((a, b) => {
+    const aIdx = order.has(a.id) ? order.get(a.id) : Number.MAX_SAFE_INTEGER;
+    const bIdx = order.has(b.id) ? order.get(b.id) : Number.MAX_SAFE_INTEGER;
+    if (aIdx !== bIdx) return aIdx - bIdx;
+    return a.title.localeCompare(b.title, "vi");
+  });
+
+  moviesEl.innerHTML = sorted
     .map(
       (m) => `
       <article class="card" data-movie="${m.id}">
@@ -53,7 +75,68 @@ function renderMovies(movies) {
   });
 }
 
-fetchJSON("/api/index.php?route=movies").then(renderMovies).catch(console.error);
+function renderFeatured(movies) {
+  if (!featuredWrapper) return;
+  const featured = FEATURED_IDS
+    .map((id) => movies.find((m) => m.id === id))
+    .filter(Boolean)
+    .slice(0, 7);
+
+  featuredWrapper.innerHTML = featured
+    .map(
+      (m) => `
+      <div class="swiper-slide" data-movie="${m.id}">
+        <img src="${m.poster}" alt="${m.title}" loading="lazy"
+             onerror="fallbackPoster(this)">
+        <h3>${m.title}</h3>
+      </div>
+    `
+    )
+    .join("");
+
+  // Init swiper once slides are ready
+  if (!featuredSwiper && typeof Swiper !== "undefined") {
+    featuredSwiper = new Swiper(".swiper-container.phim-hot", {
+      loop: true,
+      slidesPerView: 5,
+      spaceBetween: 10,
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+      },
+      autoplay: {
+        delay: 3000,
+        disableOnInteraction: false,
+      },
+      breakpoints: {
+        0: { slidesPerView: 2 },
+        768: { slidesPerView: 4 },
+        1024: { slidesPerView: 5 },
+      },
+    });
+  } else if (featuredSwiper) {
+    featuredSwiper.update();
+  }
+
+  // Click on slide -> go to showtimes
+  featuredWrapper.querySelectorAll(".swiper-slide").forEach((slide) => {
+    slide.addEventListener("click", () => {
+      const id = slide.dataset.movie;
+      if (id) window.location.href = `/movie.php?id=${id}`;
+    });
+  });
+}
+
+fetchJSON("/api/index.php?route=movies")
+  .then((movies) => {
+    renderMovies(movies);
+    renderFeatured(movies);
+  })
+  .catch(console.error);
 
 // Auth + bookings
 async function loadUserAndBookings() {

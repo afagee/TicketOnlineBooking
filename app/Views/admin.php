@@ -8,7 +8,9 @@
 </head>
 <body>
   <header class="topbar">
-    <div class="brand">Cinema Booking</div>
+    <div class="brand">
+      <a href="/">Cinema Booking</a>
+    </div>
     <nav>
       <a href="/index.php">Về trang đặt vé</a>
       <a href="/logout.php">Đăng xuất</a>
