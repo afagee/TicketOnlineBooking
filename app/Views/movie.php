@@ -8,10 +8,10 @@
 </head>
 <body>
   <header class="topbar">
-    <div class="brand">Cinema Booking</div>
-    <nav>
-      <a href="/index.php">Trang chủ</a>
-    </nav>
+    <div class="brand">
+      <a href="/">Cinema Booking</a>
+    </div>
+    <nav></nav>
   </header>
 
   <main class="container">
