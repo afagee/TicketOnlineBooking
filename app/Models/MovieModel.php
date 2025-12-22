@@ -18,7 +18,61 @@ class MovieModel
 
     public function all(): array
     {
-        return $this->store->read($this->file, []);
+        $movies = $this->store->read($this->file, []);
+        return $this->adjustShowtimesToNow($movies);
+    }
+
+    /**
+     * Điều chỉnh lịch chiếu để luôn bắt đầu từ hôm nay trở đi
+     * Giữ nguyên pattern giờ chiếu, chỉ dịch ngày
+     */
+    private function adjustShowtimesToNow(array $movies): array
+    {
+        if (empty($movies)) {
+            return $movies;
+        }
+
+        // Tìm ngày nhỏ nhất trong tất cả lịch chiếu
+        $minDate = null;
+        foreach ($movies as $movie) {
+            foreach ($movie['showtimes'] ?? [] as $st) {
+                $time = $st['time'] ?? '';
+                if ($time) {
+                    $date = substr($time, 0, 10); // YYYY-MM-DD
+                    if ($minDate === null || $date < $minDate) {
+                        $minDate = $date;
+                    }
+                }
+            }
+        }
+
+        if (!$minDate) {
+            return $movies;
+        }
+
+        // Tính số ngày cần dịch để minDate = hôm nay
+        $minTimestamp = strtotime($minDate);
+        $todayTimestamp = strtotime(date('Y-m-d'));
+        $daysDiff = (int)(($todayTimestamp - $minTimestamp) / 86400);
+
+        // Nếu lịch chiếu đã ở tương lai, không cần dịch
+        if ($daysDiff <= 0) {
+            return $movies;
+        }
+
+        // Dịch tất cả lịch chiếu
+        foreach ($movies as &$movie) {
+            foreach ($movie['showtimes'] ?? [] as &$st) {
+                $time = $st['time'] ?? '';
+                if ($time) {
+                    $timestamp = strtotime($time);
+                    $newTimestamp = $timestamp + ($daysDiff * 86400);
+                    $st['time'] = date('Y-m-d H:i', $newTimestamp);
+                }
+            }
+        }
+
+        return $movies;
     }
 
     public function saveAll(array $movies): bool
