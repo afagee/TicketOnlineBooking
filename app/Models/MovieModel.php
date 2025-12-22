@@ -16,6 +16,9 @@ class MovieModel
         $this->file = $file;
     }
 
+    /**
+     * Lấy tất cả phim với lịch chiếu đã được điều chỉnh động
+     */
     public function all(): array
     {
         $movies = $this->store->read($this->file, []);
@@ -23,7 +26,45 @@ class MovieModel
     }
 
     /**
-     * Điều chỉnh lịch chiếu để luôn bắt đầu từ hôm nay trở đi
+     * Lấy dữ liệu gốc (không điều chỉnh) - dùng cho admin
+     */
+    public function allRaw(): array
+    {
+        return $this->store->read($this->file, []);
+    }
+
+    public function saveAll(array $movies): bool
+    {
+        return $this->store->write($this->file, $movies);
+    }
+
+    public function find(string $id): ?array
+    {
+        foreach ($this->all() as $movie) {
+            if (($movie['id'] ?? null) === $id) {
+                return $movie;
+            }
+        }
+        return null;
+    }
+
+    public function findShowtime(string $showId): ?array
+    {
+        foreach ($this->all() as $movie) {
+            foreach ($movie['showtimes'] ?? [] as $st) {
+                if (($st['id'] ?? '') === $showId) {
+                    return [
+                        'movie' => $movie,
+                        'showtime' => $st,
+                    ];
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Tự động điều chỉnh lịch chiếu để luôn bắt đầu từ hôm nay
      * Giữ nguyên pattern giờ chiếu, chỉ dịch ngày
      */
     private function adjustShowtimesToNow(array $movies): array
@@ -73,36 +114,6 @@ class MovieModel
         }
 
         return $movies;
-    }
-
-    public function saveAll(array $movies): bool
-    {
-        return $this->store->write($this->file, $movies);
-    }
-
-    public function find(string $id): ?array
-    {
-        foreach ($this->all() as $movie) {
-            if (($movie['id'] ?? null) === $id) {
-                return $movie;
-            }
-        }
-        return null;
-    }
-
-    public function findShowtime(string $showId): ?array
-    {
-        foreach ($this->all() as $movie) {
-            foreach ($movie['showtimes'] ?? [] as $st) {
-                if (($st['id'] ?? '') === $showId) {
-                    return [
-                        'movie' => $movie,
-                        'showtime' => $st,
-                    ];
-                }
-            }
-        }
-        return null;
     }
 }
 
