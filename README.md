@@ -2,14 +2,37 @@
 
 Ứng dụng đặt vé xem phim đơn giản viết bằng PHP (thuần), lưu trữ dữ liệu dưới dạng JSON, không cần DB. Giao diện tĩnh (HTML/CSS/JS) gọi API PHP.
 
+## Cách chạy
+
+### Windows
+Double-click vào `start.bat`
+
+### Linux / macOS
+```bash
+./start.sh
+```
+
+### Hoặc chạy trực tiếp
+```bash
+php -S 0.0.0.0:8080
+```
+
+Sau đó truy cập: http://localhost:8080
+
+Truy cập LAN: `http://<ip-máy>:8080` (ví dụ 192.168.x.x:8080)
+
+## Tài khoản mặc định
+- **Admin:** `admin / admin`
+
 ## Cấu trúc thư mục
 - `index.php`, `login.php`, `movie.php`, `seats.php`, `admin.php`, `logout.php`: entry web pages (view layer) gọi JS tương ứng.
+- `start.bat`, `start.sh`: script khởi động server (Windows/Linux).
 - `api/`
   - `index.php`: API router duy nhất, nhận `?route=` và gọi controllers/services.
   - `util.php`: bootstrap + container khởi tạo model/service cho API.
 - `app/`
   - `Core/`: `JsonStore` (đọc/ghi JSON), `View` (render PHP view).
-  - `Models/`: `MovieModel`, `UserModel`, `BookingModel`, `SeatHoldModel`.
+  - `Models/`: `MovieModel` (có tính năng lịch chiếu động), `UserModel`, `BookingModel`, `SeatHoldModel`.
   - `Services/`: `AuthService`, `BookingService` (giữ ghế, đặt vé, lưu phim).
   - `Controllers/`
     - `Web/`: Home, Auth, Movie, Seats, Admin (render view).
@@ -28,12 +51,6 @@
   - `bookings.json`: vé đã đặt.
   - `seat_holds.json`: ghế đang giữ theo session.
 
-## Cách chạy (PHP built-in)
-```bash
-php -S 0.0.0.0:8080 -t /home/afalord/Documents/ProjectWeb
-```
-Truy cập LAN: `http://<ip-máy>/8080` (ví dụ 192.168.x.x:8080).
-
 ## API (qua `api/index.php?route=...`)
 - Public: `movies`, `auth/me`, `auth/login` (POST), `auth/register` (POST)
 - Booking (cần đăng nhập): `seat-map`, `hold` (POST), `hold/release` (POST), `booking/confirm` (POST), `my-bookings`, `my-bookings/cancel` (POST)
@@ -42,7 +59,6 @@ Truy cập LAN: `http://<ip-máy>/8080` (ví dụ 192.168.x.x:8080).
 ## Ghi chú
 - Dữ liệu lưu file JSON; không cần DB.
 - Session PHP dùng để xác định user và giữ ghế theo phiên.
-- Mặc định có tài khoản admin: `admin / admin`.
 
 ## Cách hoạt động (flow)
 1) **Trang chủ** (`index.php` + `assets/script.js`):
@@ -66,7 +82,11 @@ Truy cập LAN: `http://<ip-máy>/8080` (ví dụ 192.168.x.x:8080).
    - `BookingService`: giữ ghế (theo session), dọn hold hết hạn, xác nhận đặt, tính giá, hủy vé, reset.
    - `AuthService`: quản lý user, đảm bảo admin mặc định, kiểm tra quyền.
 7) **Lưu trữ**:
-   - `movies.json`: phim/suất, poster, trailer.
+   - `movies.json`: phim/suất, poster, trailer (lịch chiếu được điều chỉnh động).
    - `seat_holds.json`: các ghế đang được giữ, có `session`, `expiresAt`.
    - `bookings.json`: vé đã đặt (showId, seats, user|session, giá, thời gian).
    - `users.json`: user đã đăng ký (password hash).
+
+## Yêu cầu hệ thống
+- PHP >= 7.4
+- Không cần cài đặt thêm extension hay database
