@@ -1,11 +1,22 @@
 [
     {
-        "session": "kdgtp4egi9c9ebl67d5ecd8i62",
-        "showId": "mv-2-3",
+        "session": "6hc8prvqmfnopjl17e3bcuuhs2",
+        "showId": "mv-2-2",
         "seats": [
-            "C5",
+            "D5",
+            "D6",
+            "D7"
+        ],
+        "expiresAt": 1766387734
+    },
+    {
+        "session": "qem8fmglieoskhcs22olk8v99n",
+        "showId": "mv-2-2",
+        "seats": [
+            "C3",
+            "C4",
             "C6"
         ],
-        "expiresAt": 1765532754
+        "expiresAt": 1766387748
     }
 ]
