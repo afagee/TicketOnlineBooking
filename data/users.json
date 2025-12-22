@@ -21,5 +21,17 @@
         "email": "giap@gmail.com",
         "password": "$2y$10$3ehAX.mkwLkg0P80QZr35eNhGKo6sRRW\/AtEm8GXDucjFGLiz5tUW",
         "role": "user"
+    },
+    {
+        "username": "tunglo",
+        "email": "lethanhtung@gmail.com",
+        "password": "$2y$10$9vzo03E47EE14yMvb\/6uledNMpbYZ3fvzrWsmjUmBxpU8KJziQhEy",
+        "role": "user"
+    },
+    {
+        "username": "TungCT",
+        "email": "tung@gmail.com",
+        "password": "$2y$10$Q.z.vFGK8A3PWnGlfy7BJOqwAahW4pNF0te4VceyxudeW\/heMNlp.",
+        "role": "user"
     }
 ]
