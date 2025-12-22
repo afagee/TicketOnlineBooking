@@ -50,9 +50,55 @@
     </section>
 
     <section id="bookings-section" class="card hidden">
-      <h2>Vé đã đặt</h2>
-      <div id="bookings-list" class="list-plain"></div>
+      <h2>🎫 Vé đã đặt</h2>
+      <div id="bookings-list" class="bookings-grid"></div>
     </section>
+
+    <!-- Modal xem chi tiết vé -->
+    <div id="ticket-modal" class="modal hidden">
+      <div class="modal-overlay"></div>
+      <div class="modal-content ticket-detail">
+        <button class="modal-close">&times;</button>
+        <div class="ticket-header">
+          <span class="ticket-label">VÉ XEM PHIM</span>
+          <h2 id="ticket-movie"></h2>
+        </div>
+        <div class="ticket-body">
+          <div class="ticket-row">
+            <span class="ticket-icon">📅</span>
+            <div>
+              <span class="label">Suất chiếu</span>
+              <span id="ticket-time" class="value"></span>
+            </div>
+          </div>
+          <div class="ticket-row">
+            <span class="ticket-icon">💺</span>
+            <div>
+              <span class="label">Ghế</span>
+              <span id="ticket-seats" class="value seats-display"></span>
+            </div>
+          </div>
+          <div class="ticket-row">
+            <span class="ticket-icon">💰</span>
+            <div>
+              <span class="label">Tổng tiền</span>
+              <span id="ticket-price" class="value price"></span>
+            </div>
+          </div>
+          <div class="ticket-row">
+            <span class="ticket-icon">🕐</span>
+            <div>
+              <span class="label">Đặt lúc</span>
+              <span id="ticket-booked-at" class="value"></span>
+            </div>
+          </div>
+        </div>
+        <div class="ticket-footer">
+          <div class="ticket-status">✅ Đã thanh toán</div>
+          <button id="ticket-cancel-btn" class="btn-cancel">Hủy vé</button>
+        </div>
+      </div>
+    </div>
 
     <section id="movies" class="card-grid"></section>
   </main>

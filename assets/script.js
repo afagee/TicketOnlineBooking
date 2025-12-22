@@ -159,6 +159,62 @@ async function loadUserAndBookings() {
   }
 }
 
+// Modal elements
+const ticketModal = document.getElementById("ticket-modal");
+const modalOverlay = ticketModal?.querySelector(".modal-overlay");
+const modalClose = ticketModal?.querySelector(".modal-close");
+const ticketCancelBtn = document.getElementById("ticket-cancel-btn");
+
+let currentTicket = null;
+
+function openTicketModal(booking) {
+  if (!ticketModal) return;
+  currentTicket = booking;
+  
+  document.getElementById("ticket-movie").textContent = booking.movieTitle;
+  document.getElementById("ticket-time").textContent = booking.showTime;
+  document.getElementById("ticket-seats").textContent = booking.seats?.join(", ") || "";
+  document.getElementById("ticket-price").textContent = Number(booking.totalPrice || 0).toLocaleString("vi-VN") + " đ";
+  document.getElementById("ticket-booked-at").textContent = new Date(booking.bookedAt).toLocaleString("vi-VN");
+  
+  ticketModal.classList.remove("hidden");
+  document.body.style.overflow = "hidden";
+}
+
+function closeTicketModal() {
+  if (!ticketModal) return;
+  ticketModal.classList.add("hidden");
+  document.body.style.overflow = "";
+  currentTicket = null;
+}
+
+// Close modal events
+modalOverlay?.addEventListener("click", closeTicketModal);
+modalClose?.addEventListener("click", closeTicketModal);
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closeTicketModal();
+});
+
+// Cancel ticket from modal
+ticketCancelBtn?.addEventListener("click", async () => {
+  if (!currentTicket) return;
+  const { showId, seats, movieTitle } = currentTicket;
+  if (!confirm(`Bạn có chắc muốn hủy vé "${movieTitle}"?\nGhế: ${seats?.join(", ")}`)) return;
+  
+  try {
+    const res = await fetchJSON("/api/index.php?route=my-bookings/cancel", {
+      method: "POST",
+      body: JSON.stringify({ showId, seats }),
+    });
+    alert(res.message || "Đã hủy vé thành công!");
+    closeTicketModal();
+    const bookings = await fetchJSON("/api/index.php?route=my-bookings");
+    renderBookings(bookings);
+  } catch (err) {
+    alert(err.message);
+  }
+});
+
 function renderBookings(data) {
   if (!bookingsSection || !bookingsList) return;
   if (!data || !data.length) {
@@ -168,39 +224,52 @@ function renderBookings(data) {
   bookingsSection.classList.remove("hidden");
   bookingsList.innerHTML = data
     .map(
-      (b) =>
-        `<li>
-          <div>
-            <strong>
-              ${b.movieId ? `<a href="/movie.php?id=${b.movieId}">${b.movieTitle}</a>` : b.movieTitle}
-            </strong>
-            <div class="muted">Suất chiếu: ${b.showTime}</div>
+      (b, idx) =>
+        `<div class="booking-card" data-booking-idx="${idx}">
+          <div class="booking-header">
+            <h3>${b.movieTitle}</h3>
+            <span class="booking-status">✅ Đã thanh toán</span>
           </div>
-          <div class="actions">
-            <span class="muted">${new Date(b.bookedAt).toLocaleString("vi-VN")}</span>
-            <button class="ghost" data-cancel data-show="${b.showId}" data-seats="${b.seats?.join(",") || ""}">Hủy vé</button>
+          <div class="booking-info">
+            <div class="info-item">
+              <span class="info-icon">📅</span>
+              <span>${b.showTime}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-icon">💺</span>
+              <span class="seats-badge">${b.seats?.join(", ") || ""}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-icon">💰</span>
+              <span class="price-tag">${Number(b.totalPrice || 0).toLocaleString("vi-VN")} đ</span>
+            </div>
           </div>
-        </li>`
+          <div class="booking-footer">
+            <span class="booked-time">🕐 ${new Date(b.bookedAt).toLocaleString("vi-VN")}</span>
+            <button class="btn-view-detail">Xem chi tiết</button>
+          </div>
+        </div>`
     )
     .join("");
 
-  bookingsList.querySelectorAll("button[data-cancel]").forEach((btn) => {
-    btn.addEventListener("click", async () => {
-      const showId = btn.dataset.show;
-      const seats = (btn.dataset.seats || "").split(",").filter(Boolean);
-      if (!showId || !seats.length) return;
-      if (!confirm(`Hủy vé suất ${showId} cho ghế: ${seats.join(", ")}?`)) return;
-      try {
-        const res = await fetchJSON("/api/index.php?route=my-bookings/cancel", {
-          method: "POST",
-          body: JSON.stringify({ showId, seats }),
-        });
-        alert(res.message || "Đã hủy");
-        const bookings = await fetchJSON("/api/index.php?route=my-bookings");
-        renderBookings(bookings);
-      } catch (err) {
-        alert(err.message);
+  // Store bookings data for modal
+  bookingsList.bookingsData = data;
+
+  // Click to view detail
+  bookingsList.querySelectorAll(".booking-card").forEach((card) => {
+    card.addEventListener("click", (e) => {
+      // Don't open modal if clicking on button (button has its own handler)
+      if (e.target.classList.contains("btn-view-detail") || e.target.closest(".btn-view-detail")) {
+        const idx = parseInt(card.dataset.bookingIdx);
+        openTicketModal(bookingsList.bookingsData[idx]);
       }
+    });
+    
+    // Also allow clicking the whole card
+    card.querySelector(".btn-view-detail")?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const idx = parseInt(card.dataset.bookingIdx);
+      openTicketModal(bookingsList.bookingsData[idx]);
     });
   });
 }
